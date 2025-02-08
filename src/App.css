@@ -1,34 +1,82 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #f0f0f0;
+  min-height: 100vh;
+  background-color: #081E3D;
+  color: #ffffff;
 }
 
 header {
-  background-color: #4CAF50;
+  background-color: #081E3D;
   color: white;
-  padding: 1em;
+  padding: 1.5em;
   text-align: center;
   width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5em;
 }
 
 main {
-  padding: 1em;
+  padding: 2em;
   text-align: center;
+  flex: 1;
+}
+
+main p {
+  font-size: 1.2em;
+  line-height: 1.6;
+  color: #ffffff;
+}
+
+main button {
+  margin: 0.5em;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  color: #081E3D;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+main button:hover {
+  background-color: #f0f0f0;
 }
 
 footer {
-  background-color: #4CAF50;
+  background-color: #081E3D;
   color: white;
   padding: 1em;
   text-align: center;
   width: 100%;
-  position: absolute;
-  bottom: 0;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+  margin: 0;
+  font-size: 1em;
+}
+
+.ErrorPage {
+  text-align: center;
+  padding: 2em;
+}
+
+.ErrorPage h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+}
+
+.ErrorPage p {
+  font-size: 1.2em;
+  line-height: 1.6;
 }
