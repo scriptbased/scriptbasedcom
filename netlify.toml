@@ -2,6 +2,14 @@
   publish = "build"
   command = "npm run build"
 
+[[edge_functions]]
+  path = "/404"
+  function = "handle404"
+
+[[edge_functions]]
+  path = "/503"
+  function = "handle503"
+
 [context.production.environment]
   NODE_VERSION = "16"
 
