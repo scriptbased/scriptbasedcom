@@ -5,10 +5,10 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>Welcome to My Website</h1>
+        <h1>ControlUp for Apps - Demo</h1>
       </header>
       <main>
-        <p>This is a simple website hosted on Netlify.</p>
+        <p>Select what you want this SaaS app to do</p>
         <a href="/404">
           <button>404</button>
         </a>
@@ -18,7 +18,7 @@ function App() {
         <button>Other</button>
       </main>
       <footer>
-        <p>&copy; 2025 My Website</p>
+        <p>&copy; 2025 Joel Stocker - ControlUp</p>
       </footer>
     </div>
   );

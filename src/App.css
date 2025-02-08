@@ -11,6 +11,15 @@ body {
   color: #ffffff;
 }
 
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
 header {
   background-color: #081E3D;
   color: white;
@@ -35,6 +44,10 @@ main p {
   font-size: 1.2em;
   line-height: 1.6;
   color: #ffffff;
+}
+
+main a {
+  text-decoration: none;
 }
 
 main button {

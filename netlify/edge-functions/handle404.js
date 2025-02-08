@@ -30,12 +30,27 @@ export default async (request, context) => {
           font-size: 1.2em;
           line-height: 1.6;
         }
+        .back-button {
+          margin-top: 1em;
+          padding: 0.5em 1em;
+          font-size: 1em;
+          color: #081E3D;
+          background-color: #ffffff;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          text-decoration: none;
+        }
+        .back-button:hover {
+          background-color: #f0f0f0;
+        }
       </style>
     </head>
     <body>
       <div class="container">
         <h1>404 - Page Not Found</h1>
         <p>The page you are looking for does not exist.</p>
+        <a href="/" class="back-button">Back to Home</a>
       </div>
     </body>
     </html>
