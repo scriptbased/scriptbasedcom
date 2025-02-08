@@ -1,12 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import App from './App';
 import NotFound from './404';
 import ServiceUnavailable from './503';
 import './index.css';
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
   <Router>
     <Routes>
       <Route path="/" element={<App />} />
@@ -14,6 +16,5 @@ ReactDOM.render(
       <Route path="/503" element={<ServiceUnavailable />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
-  </Router>,
-  document.getElementById('root')
+  </Router>
 );
