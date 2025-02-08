@@ -44,10 +44,15 @@ export default async (request, context) => {
         .back-button:hover {
           background-color: #f0f0f0;
         }
+        .logo {
+          width: 150px;
+          margin-bottom: 1em;
+        }
       </style>
     </head>
     <body>
       <div class="container">
+        <img src="/public/controlup_apps_for_dark_background.png" alt="ControlUp Logo" class="logo" />
         <h1>404 - Page Not Found</h1>
         <p>The page you are looking for does not exist.</p>
         <a href="/" class="back-button">Back to Home</a>
