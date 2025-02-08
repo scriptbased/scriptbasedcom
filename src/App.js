@@ -1,18 +1,7 @@
 import React from 'react';
 import './App.css';
-import { useNavigate } from 'react-router-dom';
 
 function App() {
-  const navigate = useNavigate();
-
-  const handle404 = () => {
-    navigate('/404');
-  };
-
-  const handle503 = () => {
-    navigate('/503');
-  };
-
   return (
     <div className="App">
       <header>
@@ -20,8 +9,12 @@ function App() {
       </header>
       <main>
         <p>This is a simple website hosted on Netlify.</p>
-        <button onClick={handle404}>404</button>
-        <button onClick={handle503}>503</button>
+        <a href="/404">
+          <button>404</button>
+        </a>
+        <a href="/503">
+          <button>503</button>
+        </a>
         <button>Other</button>
       </main>
       <footer>

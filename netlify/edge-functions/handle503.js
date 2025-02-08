@@ -9,13 +9,15 @@ export default async (request, context) => {
       <style>
         body {
           font-family: 'Roboto', sans-serif;
+          margin: 0;
+          padding: 0;
           display: flex;
-          justify-content: center;
+          flex-direction: column;
           align-items: center;
-          height: 100vh;
+          justify-content: center;
+          min-height: 100vh;
           background-color: #081E3D;
           color: #ffffff;
-          margin: 0;
         }
         .container {
           text-align: center;
