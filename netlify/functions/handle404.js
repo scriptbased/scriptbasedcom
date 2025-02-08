@@ -1,4 +1,4 @@
-import type {Config, Context} from '@netlify/functions'
+import type {Config, Context} from '@netlify/edge-functions'
 
 export default async function(_ : Request, context : Context) {
   const res = await context.next()
