@@ -22,6 +22,10 @@ export default async (request, context) => {
         .container {
           text-align: center;
         }
+        .status-code {
+          font-size: 10em;
+          margin: 0;
+        }
         h1 {
           font-size: 2.5em;
           margin-bottom: 0.5em;
@@ -44,11 +48,17 @@ export default async (request, context) => {
         .back-button:hover {
           background-color: #f0f0f0;
         }
+        .logo {
+          width: 150px;
+          margin-bottom: 1em;
+        }
       </style>
     </head>
     <body>
       <div class="container">
-        <h1>503 - Service Unavailable</h1>
+        <img src="/controlup_apps_for_dark_background.png" alt="ControlUp Logo" class="logo" />
+        <div class="status-code">503</div>
+        <h1>Service Unavailable</h1>
         <p>The server is currently unavailable. Please try again later.</p>
         <a href="/" class="back-button">Back to Home</a>
       </div>

@@ -47,10 +47,15 @@ export default async (request, context) => {
         .back-button:hover {
           background-color: #f0f0f0;
         }
+        .logo {
+          width: 150px;
+          margin-bottom: 1em;
+        }
       </style>
     </head>
     <body>
       <div class="container">
+        <img src="/controlup_apps_for_dark_background.png" alt="ControlUp Logo" class="logo" />
         <h1>Slow Load Page</h1>
         <p>This page simulates a slow backend response.</p>
         <a href="/" class="back-button">Back to Home</a>

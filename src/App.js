@@ -5,6 +5,7 @@ function App() {
   return (
     <div className="App">
       <header>
+        <img src="/controlup_apps_for_dark_background.png" alt="ControlUp for Apps Logo" className="logo" />
         <h1>ControlUp for Apps - Demo</h1>
       </header>
       <main>

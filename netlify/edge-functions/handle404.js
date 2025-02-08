@@ -22,6 +22,10 @@ export default async (request, context) => {
         .container {
           text-align: center;
         }
+        .status-code {
+          font-size: 10em;
+          margin: 0;
+        }
         h1 {
           font-size: 2.5em;
           margin-bottom: 0.5em;
@@ -53,7 +57,8 @@ export default async (request, context) => {
     <body>
       <div class="container">
         <img src="/controlup_apps_for_dark_background.png" alt="ControlUp Logo" class="logo" />
-        <h1>404 - Page Not Found</h1>
+        <div class="status-code">404</div>
+        <h1>Page Not Found</h1>
         <p>The page you are looking for does not exist.</p>
         <a href="/" class="back-button">Back to Home</a>
       </div>
