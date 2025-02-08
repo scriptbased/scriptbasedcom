@@ -7,5 +7,5 @@ export default async function handler(request, context) {
   }
   
   export const config = {
-    path: '/404.html', // Change this to your 404 page's path
+    path: '/public/404.html', // Change this to your 404 page's path
   };

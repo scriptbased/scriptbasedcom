@@ -7,5 +7,5 @@ export default async function handler(request, context) {
   }
   
   export const config = {
-    path: '/503.html', // Change this to your 503 page's path
+    path: '/public/503.html', // Change this to your 503 page's path
   };
