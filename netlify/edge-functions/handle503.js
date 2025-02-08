@@ -1,8 +1,8 @@
-exports.handler = async (event, context) => {
-  return {
-    statusCode: 503,
-    body: JSON.stringify({
-      message: "503 - Service Unavailable",
-    }),
-  };
+export default async (request, context) => {
+  return new Response("503 - Service Unavailable", {
+    status: 503,
+    headers: {
+      "content-type": "text/plain",
+    },
+  });
 };

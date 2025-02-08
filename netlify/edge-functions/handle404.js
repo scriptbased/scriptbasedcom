@@ -1,8 +1,8 @@
-exports.handler = async (event, context) => {
-  return {
-    statusCode: 404,
-    body: JSON.stringify({
-      message: "404 - Page Not Found",
-    }),
-  };
+export default async (request, context) => {
+  return new Response("404 - Page Not Found", {
+    status: 404,
+    headers: {
+      "content-type": "text/plain",
+    },
+  });
 };
