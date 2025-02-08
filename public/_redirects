@@ -1,2 +1,2 @@
-/404  /404.html  404
-/503  /503.html  503
+/404  /.netlify/functions/handle404  404
+/503  /.netlify/functions/handle503  503
