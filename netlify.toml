@@ -10,6 +10,10 @@
   path = "/503"
   function = "handle503"
 
+[[edge_functions]]
+  path = "/slow-load"
+  function = "handleSlowLoad"
+
 [context.production.environment]
   NODE_VERSION = "16"
 

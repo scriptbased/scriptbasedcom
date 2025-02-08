@@ -1,2 +1,3 @@
 /404  /netlify/edge-functions/handle404  404
 /503  /netlify/edge-functions/handle503  503
+/slow-load  /netlify/edge-functions/handleSlowLoad  200

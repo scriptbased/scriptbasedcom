@@ -15,7 +15,9 @@ function App() {
         <a href="/503">
           <button>503</button>
         </a>
-        <button>Other</button>
+        <a href="/slow-load">
+          <button>Slow Page Load</button>
+        </a>
       </main>
       <footer>
         <p>&copy; 2025 Joel Stocker - ControlUp</p>
