@@ -5,7 +5,7 @@ import App from './App';
 import NotFound from './404';
 import ServiceUnavailable from './503';
 import SlowClientLoad from './SlowClientLoad';
-import './index.css';
+import './app.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
