@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './SlowClientLoad.css'; // Ensure this file exists and is styled appropriately
+import './index.css'; // Use the main CSS file for consistent styling
 
 const SlowClientLoad = () => {
   useEffect(() => {
