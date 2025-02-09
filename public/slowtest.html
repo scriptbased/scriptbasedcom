@@ -1,66 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Very Slow Render</title>
+    <title>Slow Client Processing</title>
     <style>
         body {
             font-family: sans-serif;
-            margin: 0; /* Remove default margins */
         }
         #container {
-            width: 800px; /* Or whatever size you want */
-            height: 600px; /* Or whatever size you want */
-            position: relative; /* For absolute positioning of items */
-            border: 1px solid #ccc;
-        }
-        .item {
-            position: absolute; /* Position items within the container */
-            width: 50px; /* Adjust size as needed */
-            height: 50px; /* Adjust size as needed */
-            background-color: lightblue;
-            /* Add more styling as desired */
+            /* If you need specific styling for the container */
         }
     </style>
 </head>
 <body>
 
-    <h1>Very Slow Render</h1>
+    <h1>Slow Client Processing</h1>
 
     <div id="container"></div>
 
     <script>
-        const container = document.getElementById('container');
-        const numItems = 200; // Number of graphical elements (adjust)
-        const containerWidth = container.offsetWidth;
-        const containerHeight = container.offsetHeight;
+        window.addEventListener('load', () => {
+            console.time('loadEventDuration');
 
-        console.time('renderTime');
-
-        // Use requestAnimationFrame for smoother animations
-        function animate() {
-            for (let i = 0; i < numItems; i++) {
-                const item = document.createElement('div');
-                item.className = 'item';
-
-                // Random positioning
-                const x = Math.random() * (containerWidth - 50);  // Subtract item width
-                const y = Math.random() * (containerHeight - 50); // Subtract item height
-
-                item.style.left = `${x}px`;
-                item.style.top = `${y}px`;
-
-                // Add some graphical complexity - example: gradient backgrounds
-                item.style.background = `linear-gradient(to bottom right, hsl(${Math.random()*360}, 100%, 50%), hsl(${Math.random()*360}, 100%, 50%))`;
-
-                container.appendChild(item);
+            // 1. Simulate DOM Manipulation (Graphical Elements - Optional but Realistic)
+            const container = document.getElementById('container');
+            const numItems = 500; // Adjust for desired load time
+            if (container) { // Check if the container exists
+                for (let i = 0; i < numItems; i++) {
+                    const item = document.createElement('div');
+                    item.textContent = `Item ${i + 1}`; // Or add images, etc.
+                    container.appendChild(item);
+                }
             }
-            console.timeEnd('renderTime');
-        }
 
-       // Introduce a deliberate delay before starting animation (adjust as needed)
-        setTimeout(animate, 2000); // 2-second delay
+            // 2. Simulate CPU-Bound Work (Complex Calculations)
+            let sum = 0;
+            const calculationIterations = 5000000; // Adjust for load
+            for (let i = 0; i < calculationIterations; i++) {
+                sum += Math.sqrt(i); // Or any other complex calculation
+            }
+            console.log("Calculation complete:", sum);
 
 
+            // 3. Simulate Asynchronous Work (Optional but Realistic)
+            // You can add timeouts, fetch calls, or other async operations here.
+            // Example using setTimeout:
+            // setTimeout(() => {
+            //     console.log("Asynchronous task completed.");
+            //     // Add additional processing here if needed.
+            // }, 2000); // 2-second delay
+
+
+            console.timeEnd('loadEventDuration');
+        });
     </script>
 
 </body>
