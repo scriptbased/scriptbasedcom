@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './App.css'; // Use the main CSS file for consistent styling
 
 const SlowClientLoad = () => {
@@ -38,6 +39,9 @@ const SlowClientLoad = () => {
           <div className="loader"></div>
         </div>
         <div id="container"></div>
+        <Link to="/">
+          <button>Back to Home</button>
+        </Link>
       </main>
       <footer>
         <p>&copy; 2025 Joel Stocker - ControlUp</p>
