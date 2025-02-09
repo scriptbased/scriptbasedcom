@@ -1,47 +1,49 @@
 import React, { useEffect } from 'react';
-import './SlowClientLoad.css'; // Make sure to create and style this CSS file
+import './SlowClientLoad.css'; // Ensure this file exists and is styled appropriately
 
 const SlowClientLoad = () => {
   useEffect(() => {
-    const container = document.getElementById('container');
-    const numItems = 200; // Number of graphical elements
-    const batchSize = 10; // Number of elements to render per frame
-    const containerWidth = container.offsetWidth;
-    const containerHeight = container.offsetHeight;
+    const loadingOverlay = document.getElementById('loading-overlay');
+    console.time('loadEventDuration');
 
-    console.time('renderTime');
+    const startTime = performance.now();
 
-    // Function to create and append items
-    function createItems(startIndex) {
-      for (let i = startIndex; i < startIndex + batchSize && i < numItems; i++) {
-        const item = document.createElement('div');
-        item.className = 'item';
-
-        // Random positioning
-        const x = Math.random() * (containerWidth - 50);  // Subtract item width
-        const y = Math.random() * (containerHeight - 50); // Subtract item height
-
-        item.style.left = `${x}px`;
-        item.style.top = `${y}px`;
-
-        // Add some graphical complexity - example: gradient backgrounds
-        item.style.background = `linear-gradient(to bottom right, hsl(${Math.random() * 360}, 100%, 50%), hsl(${Math.random() * 360}, 100%, 50%))`;
-
-        container.appendChild(item);
-      }
-
-      if (startIndex + batchSize < numItems) {
-        requestAnimationFrame(() => createItems(startIndex + batchSize));
-      } else {
-        console.timeEnd('renderTime');
+    function simulateSlowProcessing(duration) {
+      const endTime = startTime + duration;
+      while (performance.now() < endTime) {
+        Math.sqrt(Math.random());
       }
     }
 
-    // Introduce a deliberate delay before starting animation
-    setTimeout(() => requestAnimationFrame(() => createItems(0)), 2000); // 2-second delay
+    // Simulate slow processing
+    simulateSlowProcessing(2000);
+    simulateSlowProcessing(3000);
+    simulateSlowProcessing(1000);
+
+    console.timeEnd('loadEventDuration');
+
+    // Hide the loading overlay when done
+    loadingOverlay.style.display = 'none';
   }, []);
 
-  return <div id="container" className="container"></div>;
+  return (
+    <div className="App">
+      <header>
+        <img src="/controlup_apps_for_dark_background.png" alt="ControlUp for Apps Logo" className="logo" />
+        <h1>ControlUp for Apps - Demo</h1>
+      </header>
+      <main>
+        <h1>Simulated Slow Client</h1>
+        <div id="loading-overlay">
+          <div className="loader"></div>
+        </div>
+        <div id="container"></div>
+      </main>
+      <footer>
+        <p>&copy; 2025 Joel Stocker - ControlUp</p>
+      </footer>
+    </div>
+  );
 };
 
 export default SlowClientLoad;
