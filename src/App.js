@@ -17,7 +17,7 @@ function App() {
           <button>503</button>
         </a>
         <a href="/slow-load">
-          <button>Slow Page Load</button>
+          <button>Slow Backend Load</button>
         </a>
         <a href="/slow-client-load">
           <button>Slow Client Load</button>
