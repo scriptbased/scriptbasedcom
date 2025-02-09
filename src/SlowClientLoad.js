@@ -5,14 +5,15 @@ const SlowClientLoad = () => {
   useEffect(() => {
     const container = document.getElementById('container');
     const numItems = 200; // Number of graphical elements
+    const batchSize = 10; // Number of elements to render per frame
     const containerWidth = container.offsetWidth;
     const containerHeight = container.offsetHeight;
 
     console.time('renderTime');
 
-    // Use requestAnimationFrame for smoother animations
-    function animate() {
-      for (let i = 0; i < numItems; i++) {
+    // Function to create and append items
+    function createItems(startIndex) {
+      for (let i = startIndex; i < startIndex + batchSize && i < numItems; i++) {
         const item = document.createElement('div');
         item.className = 'item';
 
@@ -28,11 +29,16 @@ const SlowClientLoad = () => {
 
         container.appendChild(item);
       }
-      console.timeEnd('renderTime');
+
+      if (startIndex + batchSize < numItems) {
+        requestAnimationFrame(() => createItems(startIndex + batchSize));
+      } else {
+        console.timeEnd('renderTime');
+      }
     }
 
     // Introduce a deliberate delay before starting animation
-    setTimeout(animate, 2000); // 2-second delay
+    setTimeout(() => requestAnimationFrame(() => createItems(0)), 2000); // 2-second delay
   }, []);
 
   return <div id="container" className="container"></div>;
