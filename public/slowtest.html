@@ -1,54 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Slow Client Processing</title>
-    <style>
-        body {
-            font-family: sans-serif;
-        }
-        #container {
-            /* If you need specific styling for the container */
-        }
-    </style>
+    <title>Simulated Slow Client</title>
 </head>
 <body>
 
-    <h1>Slow Client Processing</h1>
-
-    <div id="container"></div>
+    <h1>Simulated Slow Client</h1>
 
     <script>
         window.addEventListener('load', () => {
             console.time('loadEventDuration');
 
-            // 1. Simulate DOM Manipulation (Graphical Elements - Optional but Realistic)
-            const container = document.getElementById('container');
-            const numItems = 500; // Adjust for desired load time
-            if (container) { // Check if the container exists
-                for (let i = 0; i < numItems; i++) {
-                    const item = document.createElement('div');
-                    item.textContent = `Item ${i + 1}`; // Or add images, etc.
-                    container.appendChild(item);
+            const startTime = performance.now(); // More accurate timing
+
+            // Simulate slow processing using setTimeout (or other async methods)
+            function simulateSlowProcessing(duration) {
+                const endTime = startTime + duration; // Calculate end time
+                while (performance.now() < endTime) {
+                    // Waste CPU cycles (but not blocking the event loop entirely)
+                    // You could do a small calculation here to avoid optimization
+                    Math.sqrt(Math.random()); 
                 }
             }
 
-            // 2. Simulate CPU-Bound Work (Complex Calculations)
-            let sum = 0;
-            const calculationIterations = 5000000; // Adjust for load
-            for (let i = 0; i < calculationIterations; i++) {
-                sum += Math.sqrt(i); // Or any other complex calculation
-            }
-            console.log("Calculation complete:", sum);
+            // Example 1: Simulate initial setup/processing (e.g., 2 seconds)
+            console.log("Starting initial setup...");
+            simulateSlowProcessing(2000); // 2000 milliseconds = 2 seconds
+            console.log("Initial setup complete.");
 
 
-            // 3. Simulate Asynchronous Work (Optional but Realistic)
-            // You can add timeouts, fetch calls, or other async operations here.
-            // Example using setTimeout:
-            setTimeout(() => {
-                console.log("Asynchronous task completed.");
-                // Add additional processing here if needed.
-            }, 2000); // 2-second delay
+            // Example 2: Simulate another task (e.g., 3 seconds)
+            console.log("Starting another task...");
+            simulateSlowProcessing(3000);
+            console.log("Another task complete.");
 
+            // Example 3: Simulate one more task (e.g. 1 second)
+            console.log("Starting final task...");
+            simulateSlowProcessing(1000);
+            console.log("Final task complete.");
 
             console.timeEnd('loadEventDuration');
         });
