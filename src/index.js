@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import App from './App';
 import NotFound from './404';
 import ServiceUnavailable from './503';
+import SlowLoad from './SlowLoad';
 import SlowClientLoad from './SlowClientLoad';
 import './index.css';
 
