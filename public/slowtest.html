@@ -1,45 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simulated Slow Client</title>
+    <title>Simulated Slow Client with Animation</title>
+    <style>
+        #loading-overlay {
+            position: fixed; /* Cover the entire viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            z-index: 9999; /* Ensure it's on top */
+        }
+
+      .loader { /* Styles for the loading circle */
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite; /* Animate the circle */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #container { /* Style the main content area (if needed) */
+            /*... your styles... */
+        }
+    </style>
 </head>
 <body>
 
     <h1>Simulated Slow Client</h1>
 
-    <script>
+    <div id="loading-overlay">  <div class="loader"></div>
+    </div>
+
+    <div id="container"></div>  <script>
         window.addEventListener('load', () => {
+            const loadingOverlay = document.getElementById('loading-overlay');
             console.time('loadEventDuration');
 
-            const startTime = performance.now(); // More accurate timing
+            const startTime = performance.now();
 
-            // Simulate slow processing using setTimeout (or other async methods)
             function simulateSlowProcessing(duration) {
-                const endTime = startTime + duration; // Calculate end time
+                const endTime = startTime + duration;
                 while (performance.now() < endTime) {
-                    // Waste CPU cycles (but not blocking the event loop entirely)
-                    // You could do a small calculation here to avoid optimization
-                    Math.sqrt(Math.random()); 
+                    Math.sqrt(Math.random());
                 }
             }
 
-            // Example 1: Simulate initial setup/processing (e.g., 2 seconds)
-            console.log("Starting initial setup...");
-            simulateSlowProcessing(2000); // 2000 milliseconds = 2 seconds
-            console.log("Initial setup complete.");
-
-
-            // Example 2: Simulate another task (e.g., 3 seconds)
-            console.log("Starting another task...");
+            //... (Your simulateSlowProcessing calls as before)...
+            simulateSlowProcessing(2000);
             simulateSlowProcessing(3000);
-            console.log("Another task complete.");
-
-            // Example 3: Simulate one more task (e.g. 1 second)
-            console.log("Starting final task...");
             simulateSlowProcessing(1000);
-            console.log("Final task complete.");
 
             console.timeEnd('loadEventDuration');
+
+            // Hide the loading overlay when done
+            loadingOverlay.style.display = 'none';
         });
     </script>
 
