@@ -1,0 +1,13 @@
+{
+    "page": {
+        "id": "30hzyhzp2pjy",
+        "name": "ControlUp Demo Status Page",
+        "url": "https://status.scriptbased.com",
+        "time_zone": "Etc/UTC",
+        "updated_at": "2025-08-01T08:56:12.462Z"
+    },
+    "status": {
+        "indicator": "critical",
+        "description": "Major System Outage"
+    }
+}
