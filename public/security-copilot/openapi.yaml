@@ -1,0 +1,485 @@
+openapi: 3.0.0
+info:
+  title: ControlUp Edge DX Security API
+  description: >
+    Security-relevant endpoints exposed by ControlUp Edge DX for use with
+    Microsoft Security Copilot. Covers managed device inventory, security
+    alert rules, and security events.
+  version: "1.0.0"
+
+servers:
+  - url: https://{edgedx_api_host}
+    description: >
+      Replace {edgedx_api_host} with your Edge DX tenant API hostname
+      (e.g. api.your-tenant.edgedx.controlup.com).
+    variables:
+      edgedx_api_host:
+        default: YOUR_EDGEDX_API_HOST
+
+security:
+  - ApiKeyAuth: []
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+
+  schemas:
+    PaginatedResult:
+      type: object
+      properties:
+        rows_available:
+          type: integer
+          description: Total number of matching documents.
+        rows:
+          type: array
+          items:
+            type: object
+
+    Device:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique device identifier.
+        name:
+          type: string
+          description: Device hostname.
+        platform:
+          type: string
+          description: "Operating system platform (e.g. Windows, macOS, Linux, ChromeOS)."
+        online:
+          type: boolean
+          description: Whether the device is currently online.
+        group:
+          type: string
+          description: Device group name.
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags assigned to the device.
+        agent_version:
+          type: string
+          description: Installed Edge DX agent version.
+        ip_address:
+          type: string
+          description: Last known IP address.
+        _updated:
+          type: string
+          format: date-time
+          description: Timestamp of the last agent check-in.
+        # --- Digital Employee Experience (DEX) fields ---
+        dex_score:
+          type: number
+          description: >
+            Digital Employee Experience score (0–100). Higher is better.
+            -1 means insufficient data; -2 means no scoring rules are configured.
+        top_metric_name:
+          type: string
+          description: >
+            The single metric contributing most to a poor DEX score
+            (e.g. "cpu_total_percentage", "user_logon_duration").
+        top_metric_names:
+          type: string
+          description: Comma-separated list of the top metrics dragging down the DEX score.
+        # --- Live performance metrics ---
+        cpu_total_percentage:
+          type: number
+          description: Current CPU utilisation percentage (0–100).
+        memory_total_bytes_used:
+          type: integer
+          description: Bytes of RAM currently in use.
+        memory_total_bytes_available:
+          type: integer
+          description: Bytes of RAM currently available.
+        memory_available_percentage:
+          type: number
+          description: Percentage of RAM available.
+        disk_queue_length_total:
+          type: number
+          description: Total disk I/O queue length (higher means slower disk).
+        user_logon_duration:
+          type: number
+          description: Most recent interactive logon duration in seconds.
+        user_input_delay_max:
+          type: number
+          description: Maximum user-input delay in milliseconds (measures UI responsiveness).
+        app_crashes:
+          type: number
+          description: Number of application crashes recorded in the last reporting interval.
+        app_hangs:
+          type: integer
+          description: Number of application hangs recorded in the last reporting interval.
+        ping_avg:
+          type: number
+          description: Average round-trip ping time in milliseconds.
+        # --- Logged-on user ---
+        console_user_upn:
+          type: string
+          description: UPN of the currently logged-on user (e.g. jane.doe@contoso.com).
+        console_user_display_name:
+          type: string
+          description: Display name of the currently logged-on user.
+
+    DeviceListResult:
+      allOf:
+        - $ref: "#/components/schemas/PaginatedResult"
+        - type: object
+          properties:
+            rows:
+              type: array
+              items:
+                $ref: "#/components/schemas/Device"
+
+    Alert:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique alert identifier.
+        name:
+          type: string
+          description: Alert name.
+        description:
+          type: string
+          description: Alert description.
+        severity:
+          type: integer
+          description: "Severity level: 1=Critical, 2=High, 3=Medium, 4=Low."
+          enum: [1, 2, 3, 4]
+        enabled:
+          type: boolean
+          description: Whether the alert rule is currently active.
+        platform:
+          type: integer
+          description: "Target platform bitmask (1=Windows, 2=macOS, 4=Linux, 8=ChromeOS)."
+        index:
+          type: string
+          description: OpenSearch index the alert monitors.
+        _created:
+          type: string
+          format: date-time
+          description: When the alert rule was created.
+        _updated:
+          type: string
+          format: date-time
+          description: When the alert rule was last modified.
+
+    AlertListResult:
+      allOf:
+        - $ref: "#/components/schemas/PaginatedResult"
+        - type: object
+          properties:
+            rows:
+              type: array
+              items:
+                $ref: "#/components/schemas/Alert"
+
+    Event:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique event identifier.
+        title:
+          type: string
+          description: Event title / summary.
+        type:
+          type: string
+          description: "Event category (e.g. security, system, audit)."
+        severity:
+          type: string
+          description: "Event severity label (e.g. critical, high, medium, low, info)."
+        device_id:
+          type: string
+          description: ID of the device that generated the event.
+        device_name:
+          type: string
+          description: Name of the device that generated the event.
+        _created:
+          type: string
+          format: date-time
+          description: Timestamp when the event was created.
+
+    EventListResult:
+      allOf:
+        - $ref: "#/components/schemas/PaginatedResult"
+        - type: object
+          properties:
+            rows:
+              type: array
+              items:
+                $ref: "#/components/schemas/Event"
+
+    ExperienceRecord:
+      type: object
+      description: >
+        A single telemetry record from an experience data index.
+        Available fields vary by index (e.g. builtin_devices_daily contains
+        daily device performance aggregates; builtin_session_tracking contains
+        session-level data).
+      properties:
+        _id:
+          type: string
+        _device_id:
+          type: string
+          description: ID of the device this record belongs to.
+        _created:
+          type: string
+          format: date-time
+          description: Timestamp when this record was stored.
+      additionalProperties: true
+
+    ExperienceDataResult:
+      allOf:
+        - $ref: "#/components/schemas/PaginatedResult"
+        - type: object
+          properties:
+            rows:
+              type: array
+              items:
+                $ref: "#/components/schemas/ExperienceRecord"
+
+
+
+paths:
+  /api/devices:
+    get:
+      operationId: GetDevices
+      summary: List managed devices
+      description: >
+        Returns a paginated list of devices managed by Edge DX.
+        Supports filtering by platform, online status, group, tags, and any
+        other device field via an OpenSearch query object.
+      parameters:
+        - name: query
+          in: query
+          required: false
+          description: >
+            URL-encoded JSON OpenSearch query object.
+            Example: {"query":{"term":{"platform":"Windows"}}}
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          description: Maximum number of devices to return (default 25, max 10000).
+          schema:
+            type: integer
+            default: 25
+        - name: from
+          in: query
+          required: false
+          description: Zero-based offset for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: get_device_stats
+          in: query
+          required: false
+          description: Set to "true" to include platform counts in the response.
+          schema:
+            type: string
+            enum: ["true", "false"]
+            default: "false"
+      responses:
+        "200":
+          description: List of devices matching the query.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceListResult"
+        "400":
+          description: Invalid query.
+        "401":
+          description: Missing or invalid API key.
+        "500":
+          description: Internal server error.
+
+  /api/alerts:
+    get:
+      operationId: GetAlerts
+      summary: List security alert rules
+      description: >
+        Returns all configured security alert rules. Each rule defines the
+        conditions that trigger a security alert for managed devices.
+      parameters:
+        - name: query
+          in: query
+          required: false
+          description: >
+            URL-encoded JSON OpenSearch query object to filter alert rules.
+            Example: {"query":{"term":{"severity":1}}} to get only Critical alerts.
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          description: Maximum number of alert rules to return.
+          schema:
+            type: integer
+            default: 25
+        - name: from
+          in: query
+          required: false
+          description: Zero-based offset for pagination.
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: List of alert rules.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertListResult"
+        "401":
+          description: Missing or invalid API key.
+        "500":
+          description: Internal server error.
+
+  /api/alerts/{alertId}:
+    get:
+      operationId: GetAlertById
+      summary: Get a security alert rule by ID
+      description: Returns the full configuration of a single alert rule.
+      parameters:
+        - name: alertId
+          in: path
+          required: true
+          description: Unique identifier of the alert rule.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Alert rule details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+        "401":
+          description: Missing or invalid API key.
+        "404":
+          description: Alert rule not found.
+        "500":
+          description: Internal server error.
+
+  /api/events:
+    get:
+      operationId: GetSecurityEvents
+      summary: List security events
+      description: >
+        Returns security and audit events generated by managed devices and
+        the Edge DX platform. Supports filtering by date range, event type,
+        and device.
+      parameters:
+        - name: from_date
+          in: query
+          required: false
+          description: >
+            ISO 8601 timestamp. Only return events created on or after this time.
+            Example: 2024-06-01T00:00:00Z
+          schema:
+            type: string
+            format: date-time
+        - name: to_date
+          in: query
+          required: false
+          description: >
+            ISO 8601 timestamp. Only return events created before this time.
+          schema:
+            type: string
+            format: date-time
+        - name: size
+          in: query
+          required: false
+          description: Maximum number of events to return.
+          schema:
+            type: integer
+            default: 25
+        - name: from
+          in: query
+          required: false
+          description: Zero-based offset for pagination.
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: List of security events.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventListResult"
+        "401":
+          description: Missing or invalid API key.
+        "500":
+          description: Internal server error.
+
+  /api/dal/{index}:
+    post:
+      operationId: QueryExperienceData
+      summary: Query an experience data index
+      description: >
+        Queries a named telemetry/experience data index using the Data Access
+        Layer (DAL). Supports an optional device_query to pre-filter which
+        devices' records are returned, and a data_query for the actual
+        telemetry search.
+
+        Common experience data indexes:
+          - builtin_devices_daily    — daily device performance aggregates (DEX score, CPU, memory, logon time)
+          - builtin_session_tracking — interactive session events and durations
+          - builtin_missing_patches  — patch compliance records
+          - builtin_peripherals      — connected peripheral inventory
+          - builtin_services         — Windows/macOS service state snapshots
+          - builtin_win              — Windows-specific event data
+          - builtin_edgedx_ucc_calls — communication app call quality records
+          - builtin_edgedx_ucc_sessions — communication app session records
+      parameters:
+        - name: index
+          in: path
+          required: true
+          description: Name of the experience data index to query.
+          schema:
+            type: string
+            example: builtin_devices_daily
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data_query:
+                  type: object
+                  description: >
+                    OpenSearch query object applied to the data index.
+                    Example — records from the last 7 days:
+                    {"query":{"range":{"_created":{"gte":"now-7d"}}}}
+                device_query:
+                  type: object
+                  description: >
+                    Optional OpenSearch query object applied to the device
+                    index to restrict results to specific devices.
+                    Example — only Finance group devices:
+                    {"query":{"term":{"group":"Finance"}}}
+                export:
+                  type: boolean
+                  description: Set to true to export all matching records (no size cap).
+                  default: false
+      responses:
+        "200":
+          description: Matching experience data records.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExperienceDataResult"
+        "400":
+          description: Invalid query or index name.
+        "401":
+          description: Missing or invalid API key.
+        "500":
+          description: Internal server error.
