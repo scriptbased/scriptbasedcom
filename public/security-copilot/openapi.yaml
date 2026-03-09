@@ -20,9 +20,6 @@ components:
       type: apiKey
       in: header
       name: x-api-key
-      # The value must be the raw API key string with NO "Bearer" prefix.
-      # Example header: x-api-key: abc123xyz...
-      # The API performs an exact string match; any prefix causes a 401.
 
   schemas:
     PaginatedResult:
@@ -412,6 +409,60 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EventListResult"
+        "401":
+          description: Missing or invalid API key.
+        "500":
+          description: Internal server error.
+
+  /api/devices/poor-experience:
+    get:
+      operationId: GetDevicesWithPoorExperience
+      summary: List devices with poor digital experience
+      description: >
+        Returns managed devices whose Digital Employee Experience (DEX) score
+        falls at or below the specified threshold. Only devices with a valid
+        score (dex_score >= 0) are returned; sentinel values -1 (insufficient
+        data) and -2 (no scoring rules configured) are excluded.
+      parameters:
+        - name: max_dex_score
+          in: query
+          required: false
+          description: >
+            Upper bound for dex_score (inclusive). Only devices at or below
+            this value are returned. Default is 60. A score below 60 is
+            typically considered poor; below 40 is critical.
+          schema:
+            type: integer
+            default: 60
+        - name: group
+          in: query
+          required: false
+          description: >
+            Optional device group name to restrict results to a specific
+            organisational unit. Example: Finance
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          description: Maximum number of devices to return (default 25, max 10000).
+          schema:
+            type: integer
+            default: 25
+        - name: from
+          in: query
+          required: false
+          description: Zero-based offset for pagination.
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: List of devices with a poor DEX score.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceListResult"
         "401":
           description: Missing or invalid API key.
         "500":
